@@ -1,10 +1,12 @@
+import os
 rps = str
 desc= str
 
-def addlogin():
+
+def addlogin(): #adicionar login
     global id
     global name 
-    global password ## aqui eu deixei as variáveis da função como públicas, irei usar elas no futuro
+    global password 
     global outro
     global info
     
@@ -20,12 +22,35 @@ def addlogin():
         arquivo.write(info)
     
                             
-    ## esse espaço é rservado para as as futuras funções que eu irei adicionar no progama
-    
+def deletar():  ## deletar login
+    global kf
+    kf = input("Você deseja mesmo deletar todos os seus logins?:").lower()
+    if kf == "sim":
+        os.remove("dadoslogin.txt")
+        print("Logins deletados com sucesso")   
+    if kf == "não" or "nao":
+        menu_principal()
+
+def check_do_login():
+    while True:
+            global pos
+            f = open("dadoslogin.txt", "r", encoding="utf-8")
+            conteudo = f.read()
+            print(conteudo)
+
+
+            pos = input("Digite 0 para voltar para o menu principal:")
+            if pos == "0":
+                 break
+            else:
+                 print("Resposta inválida")
+
+
+
 
         
 
-def menu_principal():
+def menu_principal():  ## menu principal
     while True:
             print("GERENCIADOR DE LOGINS")
             print("1.Checar login\n")
@@ -33,12 +58,19 @@ def menu_principal():
             print("3.Deletar login")
             print("4.Sair")
             rps = input("Digite sua opção:")
-            if rps == "2":
+            if rps == "1":
+                check_do_login()
+            elif rps == "2":
                 addlogin()
-            if rps == "4":
+            elif rps == "3":
+                deletar()
+            elif rps == "4":
                 break
+            else:
+                print("Opção inválida")
 
-while True:
+
+while True: ## usuario coloca senha
     senha =int(input("Bem vindo bruno, por favor, coloque sua senha ou digite 0 para sair:"))
     if senha == 12345:
         menu_principal()
