@@ -1,5 +1,7 @@
 import mysql.connector
 import os
+underline = '\033[4m'
+reset = '\033[0m'
 
 dados_conexao = mysql.connector.connect(
     user='root',
@@ -35,6 +37,10 @@ def deletar():  ## deletar login
     global kf
     kf = input("Insira o id do login para deletar:").lower()
     removerLogin = f'DELETE FROM logins_usuario WHERE id_Login = "{kf}"'
+
+    if kf == "":
+        print("Opção inválida")
+
     cursor.execute(removerLogin)
     dados_conexao.commit()
     os.system("cls")
@@ -42,11 +48,14 @@ def deletar():  ## deletar login
 
 def check_do_login():
     while True:
-        checkLogin = f'SELECT * FROM logins_usuario'
+        checkLogin = 'SELECT * FROM logins_usuario'
         cursor.execute(checkLogin)
         leitura = cursor.fetchall()
-        print("Aplicativo/Site | Usuário | Senha | Descrição | ID")
-        print(leitura,'\n')
+        print("Aplicativo/Site | Usuário | Senha | Descrição | ID", '\n')
+        
+        for linha in leitura:
+            print(f"{underline}{linha[0]} | {linha[1]} | {linha[2]} | {linha[3]} | {linha[4]}{reset}\n")
+        
         exit = input("Pressione 1 para sair:")
         if exit == "1":
             os.system("cls")
